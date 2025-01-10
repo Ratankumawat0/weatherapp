@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-
+import WeatherApp from "./WeatherApp.css"
 const Weather = () => {
-  const API_KEY = "07813c24234b45f48c162202251001"; // Your API key
-  const [city, setCity] = useState("");
-  const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const API_KEY = "07813c24234b45f48c162202251001"; // Replace with your actual API key
+  const [city, setCity] = useState(""); // Holds the user input for city
+  const [weatherData, setWeatherData] = useState(null); // Stores fetched weather data
+  const [loading, setLoading] = useState(false); // Tracks the loading state
+  const [error, setError] = useState(""); // Holds error messages, if any
 
+  // Fetch weather data based on the city
   const fetchWeatherData = async () => {
     if (!city.trim()) {
       alert("Please enter a city name.");
       return;
     }
 
-    setLoading(true);
-    setError("");
-    setWeatherData(null);
+    setLoading(true); // Start loading
+    setError(""); // Clear any previous errors
+    setWeatherData(null); // Clear previous data
 
     try {
       const response = await fetch(
@@ -28,12 +29,12 @@ const Weather = () => {
       }
 
       const data = await response.json();
-      setWeatherData(data);
+      setWeatherData(data); // Save the weather data
     } catch (err) {
       setError("Failed to fetch weather data");
       alert("Failed to fetch weather data");
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop loading
     }
   };
 
@@ -50,11 +51,11 @@ const Weather = () => {
         <button onClick={fetchWeatherData}>Search</button>
       </div>
 
-      {loading && <p>Loading data…</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && <p>Loading data…</p>} {/* Test Case 3: Loading state */}
+      {error && <p style={{ color: "red" }}>{error}</p>} {/* Test Case 2: Invalid city */}
 
       {weatherData && (
-        <div className="weather-cards">
+        <div className="weather-cards"> {/* Test Case 4: Display fetched weather */}
           <h2>Weather in {weatherData.location.name}</h2>
           <div className="weather-card">
             <p><strong>Temperature:</strong> {weatherData.current.temp_c}°C</p>
